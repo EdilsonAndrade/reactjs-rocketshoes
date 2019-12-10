@@ -1,6 +1,13 @@
-export const addToCart = product => {
+export const addToCartRequest = id => {
+  console.tron.log('entrou');
   return {
-    type: '@cart/ADD',
+    type: '@cart/ADD_REQUEST',
+    id,
+  };
+};
+export const addToCartSucces = product => {
+  return {
+    type: '@cart/ADD_SUCCESS',
     product,
   };
 };

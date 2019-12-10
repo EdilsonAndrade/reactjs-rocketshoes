@@ -23,14 +23,15 @@ class Home extends Component {
     this.setState({ products: data });
   }
 
-  handleAddProductToCart = product => {
-    const { addToCart } = this.props;
+  handleAddProductToCart = id => {
+    const { addToCartRequest } = this.props;
 
-    addToCart(product);
+    addToCartRequest(id);
   };
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
     return (
       <Container>
         {products.map(product => (
@@ -42,10 +43,11 @@ class Home extends Component {
 
               <button
                 type="button"
-                onClick={() => this.handleAddProductToCart(product)}
+                onClick={() => this.handleAddProductToCart(product.id)}
               >
                 <div>
-                  <MdAddShoppingCart size={20} color="#FFF" />3
+                  <MdAddShoppingCart size={20} color="#FFF" />
+                  {amount[product.id] || 0}
                 </div>
 
                 <span>Adicionar ao carrinho</span>
@@ -59,9 +61,15 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  addToCart: PropTypes.func.isRequired,
+  addToCartRequest: PropTypes.func.isRequired,
 };
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.ammount;
 
+    return amount;
+  }, {}),
+});
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
