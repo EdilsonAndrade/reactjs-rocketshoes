@@ -1,5 +1,4 @@
 export const addToCartRequest = id => {
-  console.tron.log('entrou');
   return {
     type: '@cart/ADD_REQUEST',
     id,
@@ -19,10 +18,17 @@ export const removeFromCart = id => {
   };
 };
 
-export const updateAmount = (id, ammount) => {
+export const updateAmountRequest = (id, amount) => {
   return {
-    type: '@cart/UPDATE_AMOUNT',
+    type: '@cart/UPDATE_AMOUNT_REQUEST',
     id,
-    ammount,
+    amount,
+  };
+};
+export const updateAmountSuccess = (id, amount) => {
+  return {
+    type: '@cart/UPDATE_AMOUNT_SUCCESS',
+    id,
+    amount,
   };
 };

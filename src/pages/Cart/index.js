@@ -7,13 +7,13 @@ import { Container, ProductTable } from './styles';
 import * as CartActions from '../../store/modules/Cart/actions';
 import { formatPrice } from '../../utils/formater';
 
-function Cart({ cart, removeFromCart, updateAmount, total }) {
+function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
   function increment(product) {
-    updateAmount(product.id, product.ammount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.ammount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   }
   return (
     <Container>
@@ -40,7 +40,7 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
               <td>
                 <div>
                   <MdRemoveCircleOutline onClick={() => decrement(product)} />
-                  <input type="text" disabled value={product.ammount} />
+                  <input type="text" disabled value={product.amount} />
                   <MdAddCircleOutline onClick={() => increment(product)} />
                 </div>{' '}
               </td>
@@ -69,11 +69,11 @@ const mapDispatchToProps = dispatch =>
 const mapStateToProps = state => ({
   cart: state.cart.map(product => ({
     ...product,
-    subtotal: formatPrice(product.ammount * product.price),
+    subtotal: formatPrice(product.amount * product.price),
   })),
   total: formatPrice(
     state.cart.reduce((total, product) => {
-      return total + product.price * product.ammount;
+      return total + product.price * product.amount;
     }, 0)
   ),
 });
